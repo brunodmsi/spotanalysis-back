@@ -3,15 +3,14 @@
 const querystring = require('querystring')
 const request = require('request')
 
-const REDIRECT_URI =
-  process.env.REDIRECT_URI || 'http://localhost:8888/callback'
+const REDIRECT_URI = 'https://spotanalysis-back.herokuapp.com/callback'
 
 class AccessController {
   async login (req, res) {
     res.redirect(
       `https://accounts.spotify.com/authorize?${querystring.stringify({
         response_type: 'token',
-        client_id: process.env.SPOTIFY_CLIENT_ID,
+        client_id: 'f47b20a672fa437984c50beaa4379398',
         scope: 'user-read-private user-read-email',
         redirect_uri: REDIRECT_URI,
         state: 123
@@ -31,15 +30,15 @@ class AccessController {
       },
       headers: {
         Authorization: `Basic ${new Buffer(
-          process.env.SPOTIFY_CLIENT_ID +
+          'f47b20a672fa437984c50beaa4379398' +
             ':' +
-            process.env.SPOTIFY_CLIENT_SECRET
+            'b2f1e9e79d3742ccbb528a64dda9ba8f'
         ).toString('base64')}`
       },
       json: true
     }
     request.post(authOptions, (_err, response, body) => {
-      let uri = process.env.FRONTEND_URI || 'http://localhost:3000'
+      let uri = 'https://spotanalysis-front.herokuapp.com/'
       res.redirect(`${uri}`)
     })
   }
@@ -55,9 +54,9 @@ class AccessController {
       },
       headers: {
         Authorization: `Basic ${new Buffer(
-          process.env.SPOTIFY_CLIENT_ID +
+          'f47b20a672fa437984c50beaa4379398' +
             ':' +
-            process.env.SPOTIFY_CLIENT_SECRET
+            'b2f1e9e79d3742ccbb528a64dda9ba8f'
         ).toString('base64')}`
       },
       json: true
