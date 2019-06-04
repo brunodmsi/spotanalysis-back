@@ -1,6 +1,7 @@
 /* eslint-disable class-methods-use-this */
 const express = require('express')
 const mongoose = require('mongoose')
+const cors = require('cors')
 const dbConfig = require('./config/database')
 
 class App {
@@ -21,6 +22,7 @@ class App {
   }
 
   middlewares () {
+    this.express.use(cors())
     this.express.use(express.json())
   }
 

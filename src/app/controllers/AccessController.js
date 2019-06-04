@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 /* eslint-disable node/no-deprecated-api */
 const querystring = require('querystring')
 const request = require('request')
@@ -9,22 +10,24 @@ class AccessController {
   async login (req, res) {
     res.redirect(
       `https://accounts.spotify.com/authorize?${querystring.stringify({
-        response_type: 'code',
+        response_type: 'token',
         client_id: process.env.SPOTIFY_CLIENT_ID,
         scope: 'user-read-private user-read-email',
-        redirect_uri: REDIRECT_URI
+        redirect_uri: REDIRECT_URI,
+        state: 123
       })}`
     )
   }
 
   async callback (req, res) {
-    const code = req.query.code || null
+    console.log(req.body)
+    const token = req.query.token || null
     const authOptions = {
       url: 'https://accounts.spotify.com/api/token',
       form: {
-        code,
+        access_token: token,
         redirect_uri: REDIRECT_URI,
-        grant_type: 'authorization_code'
+        token_type: 'Bearer'
       },
       headers: {
         Authorization: `Basic ${new Buffer(
@@ -35,10 +38,32 @@ class AccessController {
       },
       json: true
     }
-    request.post(authOptions, (err, response, body) => {
-      var access_token = body.access_token
+    request.post(authOptions, (_err, response, body) => {
       let uri = process.env.FRONTEND_URI || 'http://localhost:3000'
-      return res.json({ access_token })
+      res.redirect(`${uri}`)
+    })
+  }
+
+  async refresh (req, res) {
+    const { code } = req.body
+    // console.log()
+    const authOptions = {
+      url: 'https://accounts.spotify.com/api/token',
+      form: {
+        grant_type: 'refresh_token',
+        refresh_token: code
+      },
+      headers: {
+        Authorization: `Basic ${new Buffer(
+          process.env.SPOTIFY_CLIENT_ID +
+            ':' +
+            process.env.SPOTIFY_CLIENT_SECRET
+        ).toString('base64')}`
+      },
+      json: true
+    }
+    request.post(authOptions, (_err, response, body) => {
+      // console.log(response)
     })
   }
 }
