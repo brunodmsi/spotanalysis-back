@@ -4,7 +4,7 @@ const querystring = require('querystring')
 const request = require('request')
 
 // const REDIRECT_URI = 'http://localhost:8888/callback'
-const REDIRECT_URI = 'https://spotanalysis-front.herokuapp.com/callback'
+const REDIRECT_URI = 'https://spotanalysis-back.herokuapp.com/callback'
 
 class AccessController {
   async login (req, res) {
