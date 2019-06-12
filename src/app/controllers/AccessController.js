@@ -3,7 +3,8 @@
 const querystring = require('querystring')
 const request = require('request')
 
-const REDIRECT_URI = 'https://spotanalysis-back.herokuapp.com/callback'
+// const REDIRECT_URI = 'http://localhost:8888/callback'
+const REDIRECT_URI = 'https://spotanalysis-front.herokuapp.com/'
 
 class AccessController {
   async login (req, res) {
@@ -38,6 +39,7 @@ class AccessController {
       json: true
     }
     request.post(authOptions, (_err, response, body) => {
+      // let uri = 'http://localhost:3000'
       let uri = 'https://spotanalysis-front.herokuapp.com/'
       res.redirect(`${uri}`)
     })
