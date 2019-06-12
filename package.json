@@ -10,8 +10,7 @@
     "express": "^4.16.4",
     "mongoose": "^5.4.20",
     "request": "^2.88.0",
-    "require-dir": "^1.2.0",
-    "xmlhttprequest": "^1.8.0"
+    "require-dir": "^1.2.0"
   },
   "scripts": {
     "start": "node src/index.js",

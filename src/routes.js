@@ -12,6 +12,4 @@ routes.get('/tracks', controllers.TrackController.index)
 routes.get('/tracks/:id', controllers.TrackController.show)
 routes.post('/save_track', controllers.TrackController.store)
 
-routes.post('/save_playlist', controllers.PlaylistController.store)
-
 module.exports = routes
